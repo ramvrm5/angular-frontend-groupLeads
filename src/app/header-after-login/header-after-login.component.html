@@ -1,0 +1,55 @@
+<div class="row">
+    <ngx-spinner bdOpacity=0.4 bdColor="rgba(51,51,51,0.42)" size="medium" color="#2457c7" type="ball-spin-fade"
+        [fullScreen]="true">
+        <p style="color: white"> Loading... </p>
+    </ngx-spinner>
+    <div class="col-md-4 col-sm-6 col-6 pt-1">
+        <div *ngIf="billinURl == false" class="advanceStyleSelectBox input-group mb-3 select_group groupleads-select">
+            <!-- <div class="input-group-prepend">
+                <span style="padding-right: 0;" class="input-group-text"><img src="assets/images/selectImage.png"></span>
+            </div> -->
+            <select (change)="onChange($event,'')" [(ngModel)]="groupDropdown" class="form-control" id="sel1">
+                <option *ngFor="let group of groups" value="{{group.group_id}}">{{group.group_name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-8 col-sm-6 col-6 text-right right">
+        <div class="row">
+            <div class="col-md-8 col-8 col-sm-6 text-right p-0">
+                <div class="dropdown">
+                    <button class="btn btn-primary pb-0" type="button" data-toggle="dropdown">
+                        <img class="user_profile mr-2" src="assets/images/blank.jpeg" />
+                        <span class="caret"></span>
+                    </button>
+                    <ul (click)="onLiChange($event)" class="dropdown-menu">
+                        <li id="billing">
+                            <a [routerLink]="['/billing']">
+                                <!-- <img src="assets/images/Billing.png" class="mr-2"> -->
+                                <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                Billing
+                            </a>
+                        </li>
+                        <li id="helpAndDoc">
+                            <a href="https://docs.groupleads.net/" target="_blank">
+                                <!-- <img src="assets/images/helpAndDoc.png" class="mr-2"> -->
+                                <i class="fa fa-circle-o" style="font-size: 18px;" aria-hidden="true"></i>
+                                Help & Doc
+                            </a>
+                        </li>
+                        <li id="logout">
+                            <a [routerLink]="" (click)="logout()">
+                                <!-- <img src="assets/images/logout.png" class="mr-2"> -->
+                                <i class="fa fa-sign-out" style="font-size: 18px;" aria-hidden="true"></i>
+                                Log out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 col-4 col-sm-6 pt-2 text-left p-0">
+                <h6 class="pt-2"><a class="user_name" [routerLink]="" style="text-transform: capitalize;">{{name}}</a>
+                </h6>
+            </div>
+        </div>
+    </div>
+</div>

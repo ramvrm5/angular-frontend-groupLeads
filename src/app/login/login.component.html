@@ -1,0 +1,52 @@
+<app-header-before-login></app-header-before-login>
+<div class="row section pt-4">
+    <div class="container pt-4">
+        <div class="row pt-4">
+            <ngx-spinner bdOpacity=0.4 bdColor="rgba(51,51,51,0.42)" size="medium" color="#2457c7" type="ball-spin-fade"
+                [fullScreen]="true">
+                <p style="color: white"> Loading... </p>
+            </ngx-spinner>
+            <div class="col-3"></div>
+            <div class="col-6">
+                <h5 style="font-weight: 600;">LOG IN</h5>
+                <h6 class="mt-1">Login to access your faceboook group's new members’ data</h6>
+                <form [formGroup]="credentials" (ngSubmit)="loginUser()" class="mt-3 signupForm">
+                    <div *ngIf="error" class="form-group incorrectPassword">Incorrect email/password combination you can <a [routerLink]="['/forgetPassword']" style="color: #2379bb;font-weight: 600;">Reset you password here</a>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" formControlName="email" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors && notCheck }"
+                            placeholder="Enter your email address *">
+                        <div *ngIf="submitted && f.email.errors && notCheck" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" formControlName="password" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.password.errors && notCheck }" placeholder="Password *">
+                        <div *ngIf="submitted && f.password.errors && notCheck" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 5 characters</div>
+                        </div>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" formControlName="KeepMeLoggedIn" type="checkbox" name="remember"> Keep me logged in
+                        </label>
+                    </div>
+                    <button *ngIf="verifying == false" class="btn btn-primary btn-lg btn-block">LOGIN</button>
+                    <button *ngIf="verifying == true" disabled class="btn btn-lg btn-block" style="color: white;">VERIFYING...</button>
+                </form>
+                <div class="row pt-4">
+                    <div class="col-6 forgot pl-0">
+                        <h6><a [routerLink]="['/forgetPassword']">Forgot password?</a></h6>
+                    </div>
+                    <div class="col-6 text-right sign signup-link-text pr-0">
+                        <h6>Don't have an account? <a href="https://groupleads.net/free-trial/" target="_blank">Sign up</a></h6>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+        </div>
+<app-footer-before-login></app-footer-before-login>

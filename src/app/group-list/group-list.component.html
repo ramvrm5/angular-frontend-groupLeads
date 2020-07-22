@@ -1,0 +1,81 @@
+<div class="col-sm-12 dashboard">
+    <div class="row">
+        <ngx-spinner bdOpacity=0.4 bdColor="rgba(51,51,51,0.42)" size="medium" color="#2457c7" type="ball-spin-fade"
+            [fullScreen]="true">
+            <p style="color: white"> Loading... </p>
+        </ngx-spinner>
+        <div class="col-sm-3 col-md-3 col-3 sidenav p-0">
+            <div class="row">
+                <app-side-bar style="width: 100%;"></app-side-bar>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-9 main">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-12 top pt-1 p-0">
+                    <app-header-after-login></app-header-after-login>
+                </div>
+                <div *ngIf="Nogroup == false" class="row mt-3 pt-5 mb-2" style="background-color: white;">
+                    <!-- <span> -->
+                    <div class="col-5 col-sm-5 col-md-6">
+                        <h4>Group List</h4>
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-4"></div>
+                    <div class="col-4 col-sm-4 col-md-2 right-sec view" style="padding: 0px;">
+                        <div class="dropdown">
+                            <button style="background-color: white;border: 1px solid #ebdfdf;" class="btn btn-primary"
+                                type="button" data-toggle="dropdown"><img src="assets/images/filter.png" />
+                                <span class="caret" style="font-size: 15px;"> Filter By Date</span></button>
+                            <ul (click)="onChange($event,'')" class="dropdown-menu" style="cursor: pointer;">
+                                <li id="today"><a>Today</a></li>
+                                <li id="thisMonth"><a>This month</a></li>
+                                <li id="last30Days"><a>Last 30 Days</a></li>
+                                <li id="last90Days"><a>Last 90 Days</a></li>
+                                <li id="thisYear"><a>This Year</a></li>
+                                <li id="allTime"><a>All Time</a></li>
+                                <!--  <li id="currentPeriod"><a>Current Period</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- </span> -->
+                    <div class="col-sm-12  p-2" class="tableSetting group-list-table-container">
+                        <p-table [columns]="cols" styleClass="ui-table-cars" [paginator]="true" [rows]="7"
+                            selectionMode="single" [value]="groups">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th *ngFor="let col of cols" [pSortableColumn]="col.field" [ngSwitch]="col.field">
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </th>
+                                    <!-- <th>Delete</th> -->
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-group let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" [pEditableRow]="rowData">
+                                    <td [routerLink]="['/groupLeads']"
+                                        [queryParams]="{group_id:rowData.group_id,filter_name:filterDropdown}"
+                                        style="cursor: pointer;color: #9B9898;">{{rowData.group_name}}</td>
+                                    <td style="cursor: text;color: #9B9898;">{{rowData.count}}</td>
+                                    <td style="cursor: text;color: #9B9898;">
+                                        {{rowData.lastUpdate ? (rowData.lastUpdate | date: 'dd MMMM yyyy'):"--"}}
+                                    </td>
+                                    <!-- <td>
+                                    <a class="btn btn-xs" style="cursor: pointer;"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a>
+                                </td> -->
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+                <div *ngIf="Nogroup" class="row mt-3 pt-5 mb-2">
+                    <div class="col-12 text-center">
+                        <img class="mr-2 no-groups-img" src="assets/images/groupEmpty.png" />
+                    </div>
+                    <div class="col-12 mt-2">
+                        <p class="no-leads-bottom-text no-groups-text">No groups has been added. Please do so from the
+                            extension</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="col-sm-12 dashboard">
+    <div class="row">
+        <ngx-spinner bdOpacity=0.4 bdColor="rgba(51,51,51,0.42)" size="medium" color="#2457c7" type="ball-spin-fade"
+            [fullScreen]="true">
+            <p style="color: white"> Loading... </p>
+        </ngx-spinner>
+        <div class="col-sm-3 sidenav p-0">
+            <app-side-bar style="width: 100%;"></app-side-bar>
+        </div>
+        <div class="col-sm-9 main">
+            <div class="col-12 top pt-1 p-0">
+                <app-header-after-login></app-header-after-login>
+                <div class="col-3 searchinput">
+                     <i class="fa fa-search"></i> 
+                    <input class="form-control" placeholder="Search leads" (input)="tt.filterGlobal($event.target.value, 'contains')">
+                </div>
+            </div>
+            <div class="row mt-3 pt-5 mb-2 topMargin" style="background-color: white;">
+                <div class="col-7">
+                    <h4>Leads List</h4>
+                </div>
+                <div class="col-3">
+                    <button *ngIf="exportButton" type="button" label="CSV" class="billing-Upgrade-button btn"
+                        (click)="dt.exportCSV({selectionOnly:true})" style="float:right"><i class="fa fa-external-link"
+                            aria-hidden="true"></i> Export</button>
+                    <button *ngIf="exportButton == false" label="CSV-BySelection" type="button"
+                        class="billing-Upgrade-button btn" (click)="dt.exportCSV()" style="float:right"><i
+                            class="fa fa-external-link" aria-hidden="true"></i> Export</button>
+                </div>
+                <div class="col-2 right-sec view" style="padding: 0px;">
+                    <div class="dropdown">
+                        <button style="background-color: white;border: 1px solid #ebdfdf;" class="btn btn-primary"
+                            type="button" data-toggle="dropdown"><img src="assets/images/filter.png" />
+                            <span class="caret" style="font-size: 15px;"> Filter By Date</span></button>
+                        <ul (click)="onChange($event,'')" class="dropdown-menu" style="cursor: pointer;">
+                            <li id="today"><a>Today</a></li>
+                            <li id="thisMonth"><a>This month</a></li>
+                            <li id="last30Days"><a>Last 30 Days</a></li>
+                            <li id="last90Days"><a>Last 90 Days</a></li>
+                            <li id="thisYear"><a>This Year</a></li>
+                            <li id="allTime"><a>All Time</a></li>
+                            <!-- <li id="currentPeriod"><a>Current Period</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-12  p-2 group-leads-table-container"
+                    style="margin-top: 18px;border-top: 1px solid rgba(196, 196, 196, 0.39);">
+                    <p-table #tt [exportFilename]='csvName' id="group-leads" #dt [columns]="cols" styleClass="ui-table-cars"
+                        [paginator]="true" [rows]="5" (onRowSelect)="onRowSelect($event)"
+                        (onRowUnselect)="onRowUnselect($event)" (onPage)="paginate($event)" [first]="first"
+                        selectionMode="multiple" [value]="leads" [scrollable]="true" [resizableColumns]="true">
+                        <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                                <col *ngFor="let col of cols">
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th *ngFor="let col of cols" [pSortableColumn]="col.field" [ngSwitch]="col.field">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </th>
+                                <th>Delete</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-group let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                            <!-- [ngClass]="ans_one(rowData)" [title]="valid"-->
+                            <tr [pSelectableRow]="rowData" [pEditableRow]="rowData">
+                                <td class="custom-width-3" style="color: #3C61AD;">{{rowData.profile_url}}</td>
+                                <td>{{rowData.full_name}}</td>
+                                <td>{{rowData.first_name}}</td>
+                                <td>{{rowData.last_name}}</td>
+                                <td>{{rowData.joined_date}}</td>
+                                <td class="custom-width-3">{{rowData.ques_one}}</td>
+                                <td class="custom-width-3">{{rowData.ans_one}}</td>
+                                <td class="custom-width-3">{{rowData.ques_two}}</td>
+                                <td class="custom-width-3">{{rowData.ans_two}}</td>
+                                <td class="custom-width-3">{{rowData.ques_three}}</td>
+                                <td class="custom-width-3">{{rowData.ans_three}}</td>
+                                <td>{{rowData.created_date | date: 'dd MMMM yyyy'}}</td>
+                                <td>
+                                    <a class="btn btn-xs" style="cursor: pointer;"><i (click)="deleteLeads(rowData.id,rowIndex)" class="fa fa-trash text-danger" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <!-- <tr [ngClass]="ans_one(rowData)" [pSelectableRow]="rowData" [pEditableRow]="rowData">
+                                <td class="custom-width-3" style="color: #3C61AD;" title={{rowData.profile_url}}>{{rowData.profile_url}}</td>
+                                <td title={{rowData.full_name}}>{{rowData.full_name}}</td>
+                                <td title={{rowData.first_name}}>{{rowData.first_name}}</td>
+                                <td title={{rowData.last_name}}>{{rowData.last_name}}</td>
+                                <td title={{rowData.joined_date}}>{{rowData.joined_date | date: 'dd MMMM yyyy'}}</td>
+                                <td class="custom-width-3" title={{rowData.ques_one}}>{{rowData.ques_one}}</td>
+                                <td class="custom-width-3" title={{rowData.ans_one}}>{{rowData.ans_one}}</td>
+                                <td class="custom-width-3" title={{rowData.ques_two}}>{{rowData.ques_two}}</td>
+                                <td class="custom-width-3" title={{rowData.ans_two}}>{{rowData.ans_two}}</td>
+                                <td class="custom-width-3" title={{rowData.ques_three}}>{{rowData.ques_three}}</td>
+                                <td class="custom-width-3" title={{rowData.ans_three}}>{{rowData.ans_three}}</td>
+                                <td title={{rowData.created_date}}>{{rowData.created_date | date: 'dd MMMM yyyy'}}</td>
+                                <td>
+                                    <a class="btn btn-xs" style="cursor: pointer;"><i (click)="deleteLeads(rowData.id,rowIndex)" class="fa fa-trash text-danger" aria-hidden="true"></i></a>
+                                </td>
+                            </tr> -->
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="columns.length" class="text-center">
+                                    You need to generate leads via the extension before data can be added here
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
